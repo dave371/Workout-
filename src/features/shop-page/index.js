@@ -12,7 +12,6 @@ const Shop = () => {
   const [shownContent, setShownContent] = useState([]);
 
   useEffect(() => {
-    console.log('mount');
     setCurrentPage(0);
     setShownContent([]);
 
@@ -31,10 +30,6 @@ const Shop = () => {
     };
 
     fetchData();
-
-    return () => {
-      console.log('unmount');
-    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryValue]);
