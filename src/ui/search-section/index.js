@@ -1,8 +1,15 @@
 import TextField from '../text-field';
 import ButtonTemplate from '../button-template';
 import { SearchIcon } from '@heroicons/react/outline';
+import { useState } from 'react';
 
-function SearchSection({ handleSearch, searchValue, setSearchValue }) {
+function SearchSection({ setQueryValue }) {
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = () => {
+    setQueryValue(searchValue);
+  };
+
   return (
     <div>
       <div className="flex items-center">

@@ -3,52 +3,56 @@ import ButtonTemplate from '../button-template';
 import { useState, useEffect } from 'react';
 
 function ResultSection({
-  value = undefined,
-  pageInfo,
+  searchResults,
   page,
+  pageLimit,
+  shownContent = [],
+  setShownContent,
   setPage,
-  content,
-  setContent,
+  query,
 }) {
-  const { maxPage, pages } = pageInfo;
-
-  const loadMore = () => {
-    if (page < maxPage) setPage((prev) => prev + 1);
-  };
+  const [loading, setLoading] = useState(false);
+  const maxPage = Math.ceil(searchResults.length / pageLimit);
 
   useEffect(() => {
-    const loader = () => {
-      if (pages === undefined) return;
+    function loadMorePagination() {
+      setLoading(true);
+      const startIndex = page * pageLimit;
+      const endIndex = (page + 1) * pageLimit;
 
-      setContent((prev) => {
-        let products = pages[page].map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ));
-
-        if (page === 0) return [...products];
-
-        return [...prev, ...products];
+      setShownContent((prev) => {
+        if (shownContent.length === 0) {
+          return [...searchResults.slice(startIndex, endIndex)];
+        } else {
+          return [...prev, ...searchResults.slice(startIndex, endIndex)];
+        }
       });
-    };
+      setLoading(false);
+    }
 
-    loader();
+    loadMorePagination();
 
-    console.log(content);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (
     <div>
-      {value && (
-        <h4 className="mt-3 text-base font-normal">
-          Results for <span className="italic">{value}</span> :
-        </h4>
-      )}
-      {pages !== undefined ? (
-        <div>
-          <div className="grid grid-cols-2 gap-2 mt-5">{content}</div>
+      {!loading ? (
+        <>
+          {query && (
+            <h4 className="mt-3 text-base font-normal">
+              Results for <span className="italic">{query}</span> :
+            </h4>
+          )}
+          <div className="grid grid-cols-2 gap-2 mt-5">
+            {shownContent.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
           {page < maxPage - 1 ? (
             <ButtonTemplate
-              onClick={loadMore}
+              onClick={() => setPage((prev) => prev + 1)}
               className="flex justify-center w-full px-1 mt-5 text-lg font-medium rounded bg-secondary text-accent-two"
             >
               Load More
@@ -56,11 +60,9 @@ function ResultSection({
           ) : (
             ''
           )}
-        </div>
+        </>
       ) : (
-        <div className="flex items-center justify-center mt-[20%]">
-          No Results
-        </div>
+        <div>Loading Content....</div>
       )}
     </div>
   );
