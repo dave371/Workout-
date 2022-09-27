@@ -3,7 +3,7 @@ import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import ButtonTemplate from '../button-template';
 import MobileMenu from '../mobile-menu';
 
-function Navbar() {
+function Navbar({ setToggleCartModal }) {
   const [toggleMobileNav, setToggleMobileNav] = useState(false);
 
   return (
@@ -12,15 +12,17 @@ function Navbar() {
         <h1 className="text-2xl font-bold ">Workout+</h1>
         <div className="flex items-center gap-2 md:hidden">
           <ButtonTemplate
-            onClick={() => alert('you clicked the cart button')}
-            className="outline-transparent"
+            onClick={() => setToggleCartModal((prev) => !prev)}
+            className="border-transparent"
           >
             <ShoppingBagIcon className="text-white w-7 h-7 hover:text-gray-500" />
           </ButtonTemplate>
+
           <ButtonTemplate
             onClick={() => {
               setToggleMobileNav((prev) => !prev);
             }}
+            className="outline-transparent"
           >
             {toggleMobileNav ? (
               <XIcon className="text-white w-7 h-7 hover:text-gray-500" />
