@@ -24,12 +24,13 @@ function DefaultPageLayout({ children }) {
   }, [toggleMobileNav, toggleCartModal]);
 
   return (
-    <div className="relative min-h-screen p-5 bg-primary text-secondary">
+    <div className="flex flex-col min-h-screen gap-5 bg-primary text-secondary">
+      <div className="w-full h-[72px]" />
       <Navbar
         setToggleCartModal={setToggleCartModal}
         setToggleMobileNav={setToggleMobileNav}
       />
-      <div className="py-20">{children}</div>
+      <div className="relative flex-grow flex-shrink-0 px-5">{children}</div>
       <Footer />
 
       <AnimatePresence>
