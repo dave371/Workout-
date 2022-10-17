@@ -30,7 +30,9 @@ function DefaultPageLayout({ children }) {
         setToggleCartModal={setToggleCartModal}
         setToggleMobileNav={setToggleMobileNav}
       />
-      <div className="relative flex-grow flex-shrink-0 px-5">{children}</div>
+      <div className="relative flex flex-col flex-grow flex-shrink-0 px-5">
+        {children}
+      </div>
       <Footer />
 
       <AnimatePresence>
