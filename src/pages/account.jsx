@@ -115,84 +115,67 @@ function OrderHistory() {
           picture:
             'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80',
         },
+        {
+          name: 'A Shirt',
+          size: 'M',
+          price: 12,
+          picture:
+            'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80',
+        },
       ],
     },
   ];
 
-  const { orderNumber, totalPrice, datePlaced, isShipped, isDelivered } =
+  const { orderNumber, totalPrice, datePlaced, isShipped, isDelivered, items } =
     orders[0];
 
   return (
-    <div className="flex flex-col gap-8">
-      <OrderCard isShipped={isShipped} isDelivered={isDelivered}>
-        <OrderItemCard />
-        <OrderItemCard />
-        <OrderItemCard />
-        <OrderItemCard />
-      </OrderCard>
-
-      <OrderCard isShipped={isShipped} isDelivered={isDelivered}>
-        <OrderItemCard />
-        <OrderItemCard />
-        <OrderItemCard />
-        <OrderItemCard />
-      </OrderCard>
+    <div className="flex flex-col gap-5">
+      <OrderCard
+        orderNumber={orderNumber}
+        items={items}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 }
 
-function OrderCard({ children, isShipped, isDelivered }) {
+function OrderCard({ orderNumber, items, totalPrice }) {
   return (
-    <div className="flex flex-col w-full h-full">
-      <div>
-        <div className="flex items-center justify-between">
+    <div className="flex gap-4 h-36">
+      <OrderCardPicture imgUrl={items[0].picture} />
+      <div className="w-full h-full ">
+        <div className="flex flex-col justify-between h-full">
           <div>
-            <h1 className="text-lg font-medium">Order Number:</h1>
-            <p className="font-bold">#123HK321123H</p>
+            <h1 className="text-lg font-bold">Order ID:</h1>
+            <p className="text-base font-semibold">{orderNumber}</p>
           </div>
-
-          <div>
-            <h1 className="text-lg font-medium">Status:</h1>
-            <p className="font-bold">Delivered</p>
+          <div className="flex items-center gap-1">
+            <span className="text-base font-medium text-gray-500 ">
+              {items.length} Items
+            </span>
+            <div className="w-1 h-1 bg-gray-500 rounded-full" />
+            <span className="text-base font-medium text-gray-500">
+              ${totalPrice}
+            </span>
           </div>
         </div>
-
-        {isShipped && !isDelivered && (
-          <div className="mt-5">
-            <h1 className="text-lg font-medium">Tracking Number</h1>
-            <p className="font-bold">#ADA123N2LNFNBN12</p>
-          </div>
-        )}
-
-        <div className="w-full h-[2px] bg-primary my-2" />
-
-        <div className="flex flex-col gap-5">{children}</div>
       </div>
     </div>
   );
 }
 
-function OrderItemCard() {
+function OrderCardPicture({ imgUrl }) {
   return (
-    <div className="flex items-center">
-      <div className="w-2/6 py-1">
-        <Image
-          src={'/temp.png'}
-          alt="item picture"
-          width={200}
-          height={200}
-          layout="responsive"
-          className="rounded"
-        />
-      </div>
-
-      <p className="w-2/6 ml-2">Orange</p>
-
-      <p>$12</p>
-
-      <button className="flex-1 px-2 py-1 ml-2 text-white rounded bg-primary">
-        View
-      </button>
+    <div className="aspect-square">
+      <Image
+        src={imgUrl}
+        alt="items ordered image"
+        height={150}
+        width={150}
+        layout="responsive"
+        className="rounded"
+      />
     </div>
   );
 }
